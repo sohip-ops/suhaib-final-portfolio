@@ -1,0 +1,318 @@
+* {
+    -webkit-tap-highlight-color: transparent;
+    user-select: none;
+}
+
+/* Allow text selection in inputs */
+input, textarea {
+    user-select: text;
+    -webkit-user-select: text;
+}
+
+body {
+    font-family: 'Cairo', sans-serif;
+    background: #0a0a0a;
+    overflow-x: hidden;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+    width: 6px;
+}
+::-webkit-scrollbar-track {
+    background: #0a0a0a;
+}
+::-webkit-scrollbar-thumb {
+    background: #333;
+    border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
+/* Glassmorphism */
+.glass {
+    background: rgba(20, 20, 20, 0.6);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.glass-strong {
+    background: rgba(15, 15, 15, 0.85);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Camera SVG Premium Styling */
+.camera-svg-container {
+    filter: drop-shadow(0 0 30px rgba(255, 255, 255, 0.1)) 
+            drop-shadow(0 10px 40px rgba(0, 0, 0, 0.8));
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.camera-svg-container:hover {
+    filter: drop-shadow(0 0 50px rgba(255, 255, 255, 0.2)) 
+            drop-shadow(0 15px 50px rgba(0, 0, 0, 0.9));
+    transform: scale(1.05);
+}
+
+.camera-body {
+    fill: url(#cameraGradient);
+    stroke: rgba(255, 255, 255, 0.15);
+    stroke-width: 1;
+}
+
+.camera-lens-outer {
+    fill: url(#lensGradient);
+    stroke: rgba(255, 255, 255, 0.2);
+    stroke-width: 2;
+}
+
+.camera-lens-inner {
+    fill: url(#lensInnerGradient);
+}
+
+.camera-lens-glass {
+    fill: url(#glassGradient);
+    opacity: 0.9;
+}
+
+.camera-detail {
+    fill: rgba(255, 255, 255, 0.1);
+    stroke: rgba(255, 255, 255, 0.15);
+    stroke-width: 0.5;
+}
+
+/* Flash Overlay — مخفي (غير مستخدم، الفلاش الآن فوق الكاميرا فقط) */
+#flash-overlay {
+    display: none;
+}
+
+/* وميض أبيض فوق الكاميرا فقط */
+#camera-flash-burst {
+    position: absolute;
+    inset: -18px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(255,255,255,0.98) 0%, rgba(255,255,255,0.7) 40%, rgba(255,255,255,0) 75%);
+    opacity: 0;
+    pointer-events: none;
+    z-index: 20;
+}
+
+#camera-flash-burst.active {
+    animation: cameraLocalFlash 380ms ease-out forwards;
+}
+
+@keyframes cameraLocalFlash {
+    0%   { opacity: 0;    transform: scale(0.6); }
+    8%   { opacity: 1;    transform: scale(1.05); }
+    22%  { opacity: 0.65; transform: scale(0.95); }
+    40%  { opacity: 0.9;  transform: scale(1.02); }
+    65%  { opacity: 0.25; transform: scale(1); }
+    100% { opacity: 0;    transform: scale(1); }
+}
+
+/* اهتزاز الكاميرا عند النقر */
+.camera-svg-container.flash-click {
+    animation: cameraShake 380ms ease-out;
+}
+
+@keyframes cameraShake {
+    0%   { transform: scale(1)    rotate(0deg); }
+    12%  { transform: scale(0.92) rotate(-3deg); }
+    28%  { transform: scale(1.07) rotate(2deg); }
+    45%  { transform: scale(0.96) rotate(-1.5deg); }
+    62%  { transform: scale(1.03) rotate(1deg); }
+    80%  { transform: scale(0.99) rotate(-0.5deg); }
+    100% { transform: scale(1)    rotate(0deg); }
+}
+
+/* Side Panels */
+.side-panel {
+    position: relative;
+    overflow: hidden;
+    transform: skewX(-8deg);
+    transition: all 0.5s ease;
+}
+
+.side-panel::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, 
+        rgba(10,10,10,0) 0%, 
+        rgba(10,10,10,0.3) 50%, 
+        rgba(10,10,10,0.8) 100%);
+    pointer-events: none;
+}
+
+.side-panel img {
+    transform: skewX(8deg) scale(1.2);
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.8s ease;
+}
+
+/* Hamburger Animation */
+.hamburger-line {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    transform-origin: center;
+}
+
+.hamburger.active .hamburger-line:nth-child(1) {
+    transform: translateY(8px) rotate(45deg);
+}
+
+.hamburger.active .hamburger-line:nth-child(2) {
+    opacity: 0;
+    transform: scaleX(0);
+}
+
+.hamburger.active .hamburger-line:nth-child(3) {
+    transform: translateY(-8px) rotate(-45deg);
+}
+
+/* Drawer */
+#drawer {
+    transform: translateX(100%);
+    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+#drawer.open {
+    transform: translateX(0);
+}
+
+/* Admin Modal */
+#admin-modal {
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+}
+
+#admin-modal.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+#admin-modal .modal-content {
+    transform: scale(0.9) translateY(20px);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+#admin-modal.active .modal-content {
+    transform: scale(1) translateY(0);
+}
+
+/* Skeleton Loading */
+.skeleton {
+    background: linear-gradient(90deg, #1a1a1a 25%, #2d2d2d 50%, #1a1a1a 75%);
+    background-size: 200% 100%;
+    animation: shimmer 1.5s infinite;
+    border-radius: 4px;
+}
+
+/* Text Gradient */
+.text-gradient-gold {
+    background: linear-gradient(135deg, #c9a96e 0%, #f0d99c 50%, #c9a96e 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+/* View Portfolio Button */
+.btn-luxury {
+    background: linear-gradient(135deg, rgba(201, 169, 110, 0.2) 0%, rgba(201, 169, 110, 0.1) 100%);
+    border: 1px solid rgba(201, 169, 110, 0.4);
+    color: #c9a96e;
+    transition: all 0.4s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.btn-luxury::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(201, 169, 110, 0.2), transparent);
+    transition: left 0.5s ease;
+}
+
+.btn-luxury:hover::before {
+    left: 100%;
+}
+
+.btn-luxury:hover {
+    background: linear-gradient(135deg, rgba(201, 169, 110, 0.3) 0%, rgba(201, 169, 110, 0.2) 100%);
+    border-color: rgba(201, 169, 110, 0.7);
+    box-shadow: 0 0 30px rgba(201, 169, 110, 0.15);
+    transform: translateY(-2px);
+}
+
+/* Navigation dots */
+.nav-dot {
+    width: 3px;
+    height: 3px;
+    background: rgba(255, 255, 255, 0.4);
+    border-radius: 50%;
+    display: inline-block;
+    margin: 0 8px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .side-panel {
+        transform: skewX(-4deg);
+    }
+    .side-panel img {
+        transform: skewX(4deg) scale(1.3);
+    }
+}
+
+@media (max-width: 640px) {
+    .side-panel {
+        transform: skewX(-2deg);
+    }
+    .side-panel img {
+        transform: skewX(2deg) scale(1.4);
+    }
+}
+
+/* Language toggle styling */
+.lang-toggle {
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.lang-toggle:hover {
+    color: #c9a96e;
+}
+
+/* Password input styling */
+.password-input {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    transition: all 0.3s ease;
+}
+
+.password-input:focus {
+    outline: none;
+    border-color: rgba(201, 169, 110, 0.5);
+    background: rgba(255, 255, 255, 0.08);
+    box-shadow: 0 0 20px rgba(201, 169, 110, 0.1);
+}
+
+/* Social icons in drawer */
+.social-icon {
+    transition: all 0.3s ease;
+}
+
+.social-icon:hover {
+    transform: translateY(-3px);
+    color: #c9a96e;
+}
