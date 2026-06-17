@@ -1,0 +1,761 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Suhaib Photo | Portfolio</title>
+    <meta name="description" content="Portfolio Gallery - Suhaib Photo">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;600;700;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <!-- Shared Styles -->
+    <link rel="stylesheet" href="style.css">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        cairo: ['Cairo', 'sans-serif'],
+                        inter: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        luxury: {
+                            900: '#0a0a0a',
+                            800: '#111111',
+                            700: '#1a1a1a',
+                            600: '#222222',
+                            500: '#2d2d2d',
+                            gold: '#c9a96e',
+                            accent: '#d4af37',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body { background: #0a0a0a; overflow-x: hidden; }
+
+        .filter-pill {
+            padding: 8px 20px;
+            border-radius: 999px;
+            border: 1.5px solid rgba(255,255,255,0.15);
+            color: rgba(255,255,255,0.6);
+            font-family: 'Inter', sans-serif;
+            font-size: 13px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4,0,0.2,1);
+            white-space: nowrap;
+            background: transparent;
+            letter-spacing: 0.02em;
+        }
+        .filter-pill:hover {
+            border-color: rgba(201,169,110,0.5);
+            color: #c9a96e;
+            background: rgba(201,169,110,0.06);
+        }
+        .filter-pill.active {
+            background: #1a1a2e;
+            border-color: rgba(255,255,255,0.6);
+            color: #fff;
+            font-weight: 600;
+        }
+
+        .sub-pill {
+            padding: 5px 14px;
+            border-radius: 999px;
+            border: 1px solid rgba(255,255,255,0.1);
+            color: rgba(255,255,255,0.45);
+            font-family: 'Inter', sans-serif;
+            font-size: 11px;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            white-space: nowrap;
+            background: transparent;
+        }
+        .sub-pill:hover, .sub-pill.active {
+            border-color: rgba(201,169,110,0.5);
+            color: #c9a96e;
+            background: rgba(201,169,110,0.08);
+        }
+
+        .cards-stage {
+            position: relative;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 460px;
+            perspective: 1200px;
+            overflow: visible;
+        }
+        .portfolio-card {
+            position: absolute;
+            border-radius: 20px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.55s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 8px 40px rgba(0,0,0,0.6);
+            -webkit-user-drag: none;
+        }
+        .portfolio-card.pos-center  { width:340px; height:420px; z-index:10; transform:translateX(0) scale(1) rotateY(0deg); box-shadow:0 20px 80px rgba(0,0,0,0.9),0 0 0 1px rgba(255,255,255,0.08); }
+        .portfolio-card.pos-left-1  { width:260px; height:360px; z-index:7;  transform:translateX(-320px) scale(0.9) rotateY(15deg);  filter:brightness(0.6); }
+        .portfolio-card.pos-right-1 { width:260px; height:360px; z-index:7;  transform:translateX(320px)  scale(0.9) rotateY(-15deg); filter:brightness(0.6); }
+        .portfolio-card.pos-left-2  { width:200px; height:300px; z-index:4;  transform:translateX(-560px) scale(0.78) rotateY(22deg); filter:brightness(0.35); }
+        .portfolio-card.pos-right-2 { width:200px; height:300px; z-index:4;  transform:translateX(560px)  scale(0.78) rotateY(-22deg);filter:brightness(0.35); }
+        .portfolio-card.pos-hidden-left  { width:160px; height:260px; z-index:1; transform:translateX(-780px) scale(0.65) rotateY(30deg);  filter:brightness(0.1); pointer-events:none; }
+        .portfolio-card.pos-hidden-right { width:160px; height:260px; z-index:1; transform:translateX(780px)  scale(0.65) rotateY(-30deg); filter:brightness(0.1); pointer-events:none; }
+        .portfolio-card img, .portfolio-card video { width:100%; height:100%; object-fit:cover; display:block; pointer-events:none; -webkit-user-drag:none; user-select:none; }
+
+        .card-overlay { position:absolute; inset:0; display:flex; align-items:flex-end; justify-content:flex-end; padding:14px; background:linear-gradient(to top, rgba(0,0,0,0.4) 0%, transparent 60%); }
+        .play-icon { width:36px; height:36px; background:rgba(255,255,255,0.15); backdrop-filter:blur(8px); border-radius:50%; display:flex; align-items:center; justify-content:center; border:1px solid rgba(255,255,255,0.3); }
+
+        .nav-arrow { width:48px; height:48px; border-radius:50%; border:1.5px solid rgba(255,255,255,0.2); background:rgba(255,255,255,0.05); display:flex; align-items:center; justify-content:center; cursor:pointer; transition:all 0.3s ease; color:rgba(255,255,255,0.7); font-size:14px; backdrop-filter:blur(8px); }
+        .nav-arrow:hover { border-color:rgba(201,169,110,0.6); color:#c9a96e; background:rgba(201,169,110,0.08); box-shadow:0 0 20px rgba(201,169,110,0.1); }
+
+        #lightbox { position:fixed; inset:0; z-index:1000; background:rgba(0,0,0,0.97); display:flex; align-items:center; justify-content:center; opacity:0; visibility:hidden; transition:all 0.4s cubic-bezier(0.4,0,0.2,1); backdrop-filter:blur(10px); }
+        #lightbox.active { opacity:1; visibility:visible; }
+        #lightbox-media { max-width:92vw; max-height:88vh; border-radius:16px; object-fit:contain; box-shadow:0 30px 100px rgba(0,0,0,0.9); transform:scale(0.92); transition:transform 0.4s cubic-bezier(0.4,0,0.2,1); pointer-events:none; -webkit-user-drag:none; user-select:none; }
+        #lightbox.active #lightbox-media { transform:scale(1); }
+        #lightbox-close { position:absolute; top:20px; right:24px; width:44px; height:44px; border-radius:50%; background:rgba(255,255,255,0.1); border:1px solid rgba(255,255,255,0.2); display:flex; align-items:center; justify-content:center; cursor:pointer; transition:all 0.3s ease; color:white; font-size:18px; z-index:10; }
+        #lightbox-close:hover { background:rgba(201,169,110,0.2); border-color:rgba(201,169,110,0.5); color:#c9a96e; transform:rotate(90deg); }
+        #lightbox-info { position:absolute; bottom:24px; left:50%; transform:translateX(-50%); text-align:center; color:rgba(255,255,255,0.6); font-family:'Inter',sans-serif; font-size:13px; }
+        #lightbox-prev, #lightbox-next { position:absolute; top:50%; transform:translateY(-50%); width:52px; height:52px; border-radius:50%; background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.15); display:flex; align-items:center; justify-content:center; cursor:pointer; transition:all 0.3s ease; color:white; font-size:16px; z-index:10; }
+        #lightbox-prev { right:24px; }
+        #lightbox-next { left:24px; }
+        #lightbox-prev:hover, #lightbox-next:hover { background:rgba(201,169,110,0.15); border-color:rgba(201,169,110,0.4); color:#c9a96e; }
+
+        .card-skeleton { border-radius:20px; background:linear-gradient(90deg,#1a1a1a 25%,#2d2d2d 50%,#1a1a1a 75%); background-size:200% 100%; animation:shimmer 1.5s infinite; }
+        @keyframes shimmer { 0%{background-position:-200% 0} 100%{background-position:200% 0} }
+
+        @media (max-width:768px) {
+            .cards-stage { height:340px; overflow:hidden; }
+            .portfolio-card.pos-center  { width:260px; height:320px; }
+            .portfolio-card.pos-left-1  { width:180px; height:240px; transform:translateX(-220px) scale(0.88) rotateY(12deg); }
+            .portfolio-card.pos-right-1 { width:180px; height:240px; transform:translateX(220px)  scale(0.88) rotateY(-12deg); }
+            .portfolio-card.pos-left-2  { transform:translateX(-420px) scale(0.7) rotateY(20deg);  filter:brightness(0.1); }
+            .portfolio-card.pos-right-2 { transform:translateX(420px)  scale(0.7) rotateY(-20deg); filter:brightness(0.1); }
+        }
+        @media (max-width:480px) {
+            .cards-stage { height:300px; }
+            .portfolio-card.pos-center  { width:220px; height:280px; }
+            .portfolio-card.pos-left-1  { width:150px; height:200px; transform:translateX(-190px) scale(0.85) rotateY(10deg); }
+            .portfolio-card.pos-right-1 { width:150px; height:200px; transform:translateX(190px)  scale(0.85) rotateY(-10deg); }
+        }
+
+        .page-enter { animation:pageEnter 0.6s cubic-bezier(0.4,0,0.2,1) forwards; }
+        @keyframes pageEnter { from{opacity:0;transform:translateY(16px)} to{opacity:1;transform:translateY(0)} }
+
+        .counter-dot { width:6px; height:6px; border-radius:50%; background:rgba(255,255,255,0.25); transition:all 0.3s ease; cursor:pointer; }
+        .counter-dot.active { background:#c9a96e; width:22px; border-radius:3px; }
+
+        .filter-scroll { scrollbar-width:none; -ms-overflow-style:none; }
+        .filter-scroll::-webkit-scrollbar { display:none; }
+
+        .page-title { font-family:'Cairo',sans-serif; font-size:clamp(1.1rem,2.5vw,1.5rem); color:rgba(255,255,255,0.85); letter-spacing:0.05em; font-weight:300; }
+
+        /* Loading overlay for filter transitions */
+        #filter-loading { opacity:0; pointer-events:none; transition:opacity 0.2s; }
+        #filter-loading.visible { opacity:1; }
+
+        img, video { -webkit-user-drag:none; user-select:none; }
+    </style>
+</head>
+<body class="bg-luxury-900 text-white min-h-screen">
+
+    <!-- ===================== HEADER ===================== -->
+    <header class="fixed top-0 left-0 right-0 z-40 glass px-4 sm:px-6 lg:px-10 py-4">
+        <div class="max-w-7xl mx-auto flex items-center justify-between">
+            
+            <!-- Logo / Back -->
+            <a href="index.html" class="flex items-center gap-2 text-lg sm:text-xl font-bold tracking-wide font-inter hover:text-luxury-gold transition-colors duration-300">
+                <i class="fas fa-arrow-right text-sm text-gray-400 hover:text-luxury-gold transition-colors"></i>
+                <span class="text-luxury-gold">S</span><span>uhaib Photo</span>
+            </a>
+
+            <!-- Page title -->
+            <span class="page-title hidden md:block" data-i18n="pageTitle">Portfolio</span>
+
+            <!-- Right: Language + Hamburger -->
+            <div class="flex items-center gap-4">
+                <div class="flex items-center gap-1 text-xs sm:text-sm text-gray-400">
+                    <i class="fas fa-globe text-xs"></i>
+                    <button class="lang-btn text-gray-400 hover:text-white transition-colors font-inter" data-lang="ar" onclick="setLanguage('ar')">العربية</button>
+                    <span class="text-gray-600">/</span>
+                    <button class="lang-btn text-gray-400 hover:text-white transition-colors font-inter" data-lang="en" onclick="setLanguage('en')">English</button>
+                </div>
+                <button id="hamburger-btn" class="hamburger flex flex-col gap-1.5 p-2 focus:outline-none" onclick="toggleDrawer()" aria-label="Menu">
+                    <span class="hamburger-line w-6 h-0.5 bg-white block"></span>
+                    <span class="hamburger-line w-6 h-0.5 bg-white block"></span>
+                    <span class="hamburger-line w-6 h-0.5 bg-white block"></span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- ===================== MAIN ===================== -->
+    <main class="pt-24 pb-16 min-h-screen flex flex-col items-center px-4">
+
+        <!-- Category Filter Bar -->
+        <div class="w-full max-w-3xl flex flex-col items-center gap-4 mb-10 page-enter">
+
+            <!-- Main Categories — rendered dynamically by JS -->
+            <div id="cat-filter-bar" class="flex gap-2 flex-wrap justify-center filter-scroll overflow-x-auto pb-1">
+                <!-- Skeleton while loading -->
+                <div class="card-skeleton h-9 w-16 rounded-full"></div>
+                <div class="card-skeleton h-9 w-20 rounded-full"></div>
+                <div class="card-skeleton h-9 w-24 rounded-full"></div>
+            </div>
+
+            <!-- Sub-categories (dynamic) -->
+            <div id="sub-filters" class="flex gap-2 flex-wrap justify-center transition-all duration-300 overflow-x-auto filter-scroll">
+                <!-- Populated by JS -->
+            </div>
+        </div>
+
+        <!-- Cards Stage -->
+        <div class="w-full flex flex-col items-center gap-8 page-enter" style="animation-delay:0.1s">
+
+            <div id="cards-stage" class="cards-stage w-full max-w-5xl">
+                <div class="card-skeleton w-[340px] h-[420px]"></div>
+            </div>
+
+            <!-- Dots Indicator -->
+            <div id="dots-container" class="flex gap-2 items-center justify-center mt-2"></div>
+
+            <!-- Navigation Arrows -->
+            <div class="flex gap-4 items-center">
+                <button class="nav-arrow" onclick="navigate('prev')" aria-label="Previous">
+                    <i class="fas fa-arrow-right"></i>
+                </button>
+                <button class="nav-arrow" onclick="navigate('next')" aria-label="Next">
+                    <i class="fas fa-arrow-left"></i>
+                </button>
+            </div>
+
+        </div>
+
+    </main>
+
+    <!-- ===================== LIGHTBOX ===================== -->
+    <div id="lightbox" oncontextmenu="return false;">
+        <button id="lightbox-close" onclick="closeLightbox()" aria-label="Close">
+            <i class="fas fa-times"></i>
+        </button>
+        <button id="lightbox-prev" onclick="lightboxNav('prev')" aria-label="Previous">
+            <i class="fas fa-chevron-right"></i>
+        </button>
+        <button id="lightbox-next" onclick="lightboxNav('next')" aria-label="Next">
+            <i class="fas fa-chevron-left"></i>
+        </button>
+        <div id="lightbox-media-wrap" style="position:relative;display:flex;align-items:center;justify-content:center;">
+            <img id="lightbox-media" src="" alt="Portfolio item" loading="lazy" oncontextmenu="return false;" draggable="false">
+        </div>
+        <div id="lightbox-info">
+            <span id="lightbox-counter" class="font-inter text-xs tracking-widest opacity-50"></span>
+        </div>
+    </div>
+
+    <!-- ===================== SLIDE-OUT DRAWER ===================== -->
+    <div id="drawer" class="fixed top-0 right-0 h-full w-72 sm:w-80 glass-strong z-50 flex flex-col">
+        <div class="p-6 flex justify-end">
+            <button onclick="toggleDrawer()" class="text-gray-400 hover:text-white transition-colors">
+                <i class="fas fa-times text-xl"></i>
+            </button>
+        </div>
+        <div class="flex-1 flex flex-col items-center justify-center gap-8">
+            <h3 class="font-cairo text-xl text-luxury-gold mb-4" data-i18n="drawerTitle">Contact Us</h3>
+            <a id="whatsapp-link" href="#" class="social-icon flex items-center gap-3 text-lg text-gray-300 hover:text-green-500 transition-colors">
+                <div class="w-12 h-12 rounded-full bg-white/5 flex items-center justify-center border border-white/10">
+                    <i class="fab fa-whatsapp text-2xl"></i>
+                </div>
+                <span class="font-inter">WhatsApp</span>
+            </a>
+            <a id="instagram-link" href="#" class="social-icon flex items-center gap-3 text-lg text-gray-300 hover:text-pink-500 transition-colors">
+                <div class="w-12 h-12 rounded-full bg-white/5 flex items-center justify-center border border-white/10">
+                    <i class="fab fa-instagram text-2xl"></i>
+                </div>
+                <span class="font-inter">Instagram</span>
+            </a>
+        </div>
+        <div class="p-6 text-center text-xs text-gray-600 font-inter">
+            Suhaib Photo &copy; 2026
+        </div>
+    </div>
+    <div id="drawer-overlay" class="fixed inset-0 bg-black/60 z-40 opacity-0 pointer-events-none transition-opacity duration-300" onclick="toggleDrawer()"></div>
+
+    <!-- ===================== JAVASCRIPT ===================== -->
+    <script>
+    'use strict';
+
+    const API_BASE = ''; // same-origin — served by Node.js
+
+    // ============================================================
+    //  i18n — Translation System
+    //
+    //  Static UI strings live here. Dynamic category names from the
+    //  DB are used as-is (the admin sets them when creating the category).
+    //  When the language changes, applyTranslations() updates every
+    //  element that has a [data-i18n] attribute, then re-renders the
+    //  filter bar so dynamic tabs also re-render with the correct
+    //  "All" label and language direction.
+    // ============================================================
+    const TRANSLATIONS = {
+      ar: {
+        pageTitle:   'المعرض',
+        drawerTitle: 'تواصل معنا',
+        filterAll:   'الكل',
+        subAll:      'الكل',
+        noItems:     'لا توجد عناصر',
+        loading:     'جاري التحميل…',
+      },
+      en: {
+        pageTitle:   'Portfolio',
+        drawerTitle: 'Contact Us',
+        filterAll:   'All',
+        subAll:      'All',
+        noItems:     'No items found',
+        loading:     'Loading…',
+      }
+    };
+
+    // Active language — read from localStorage for persistence
+    let currentLang = localStorage.getItem('sp_lang') || 'ar';
+
+    /** Return the translated string for a key in the active language. */
+    function t(key) {
+      return TRANSLATIONS[currentLang]?.[key] ?? TRANSLATIONS.en[key] ?? key;
+    }
+
+    /**
+     * Apply translations to every [data-i18n] element and update
+     * the document direction and active language button styles.
+     * Called once on init and again whenever the language changes.
+     */
+    function applyTranslations() {
+      // Document direction
+      document.documentElement.lang = currentLang;
+      document.documentElement.dir  = currentLang === 'ar' ? 'rtl' : 'ltr';
+
+      // Static elements with data-i18n attribute
+      document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.dataset.i18n;
+        el.textContent = t(key);
+      });
+
+      // Language button active state
+      document.querySelectorAll('.lang-btn').forEach(btn => {
+        const isActive = btn.dataset.lang === currentLang;
+        btn.classList.toggle('text-white',    isActive);
+        btn.classList.toggle('text-gray-400', !isActive);
+      });
+    }
+
+    /** Called by the language toggle buttons in the header. */
+    function setLanguage(lang) {
+      if (lang === currentLang) return;
+      currentLang = lang;
+      localStorage.setItem('sp_lang', lang);
+      applyTranslations();
+      // Re-render filter bar and sub-filters so labels update
+      renderCategoryFilterBar();
+      renderSubFilters(currentCat);
+    }
+
+    // ============================================================
+    //  STATE
+    // ============================================================
+    let allItems      = [];   // all portfolio items from /api/portfolio
+    let categories    = [];   // [{ id, name, slug, isDefault }] from /api/categories
+    let filteredItems = [];
+    let currentIndex  = 0;
+    let currentCat    = 'all';  // 'all' or a category SLUG string
+    let currentSub    = 'all';
+    let lightboxIndex = 0;
+    let touchStartX   = 0;
+    // Map of slug → Set of sub_labels, built from allItems after fetch
+    let subLabelsMap  = {};
+
+    // ============================================================
+    //  API HELPER
+    // ============================================================
+    async function apiFetch(path) {
+      const opts = { credentials: 'include', headers: {} };
+      const token = localStorage.getItem('admin_token');
+      if (token) opts.headers['Authorization'] = `Bearer ${token}`;
+      const res = await fetch(API_BASE + path, opts);
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      return res.json();
+    }
+
+    // ============================================================
+    //  INIT
+    // ============================================================
+    document.addEventListener('load', e => {
+      if (e.target.tagName === 'IMG') e.target.classList.add('loaded');
+    }, true);
+
+    document.addEventListener('DOMContentLoaded', async () => {
+      applyTranslations();       // Apply lang before any render
+      loadSettings();
+      await loadData();          // Fetch categories + portfolio in parallel
+    });
+
+    // ============================================================
+    //  DATA LOADING
+    //  Fetches categories AND portfolio items in parallel, then
+    //  derives sub-label map and renders everything.
+    // ============================================================
+    async function loadData() {
+      try {
+        // Parallel fetch — categories provide tab labels, portfolio provides items
+        const [cats, items] = await Promise.all([
+          apiFetch('/api/categories'),
+          apiFetch('/api/portfolio'),
+        ]);
+        categories = cats;   // [{ id, name, slug, isDefault }]
+        allItems   = items;  // [{ id, cat (slug), sub_label, media_url, … }]
+      } catch (err) {
+        console.error('[loadData]', err);
+        categories = [];
+        allItems   = [];
+      }
+
+      // Build sub-label map: { slug → string[] }
+      subLabelsMap = {};
+      allItems.forEach(item => {
+        const slug = item.cat || '';
+        const sub  = item.sub_label || '';
+        if (slug && sub) {
+          if (!subLabelsMap[slug]) subLabelsMap[slug] = new Set();
+          subLabelsMap[slug].add(sub);
+        }
+      });
+      Object.keys(subLabelsMap).forEach(k => {
+        subLabelsMap[k] = [...subLabelsMap[k]];
+      });
+
+      renderCategoryFilterBar();
+      applyFilter();
+    }
+
+    // ============================================================
+    //  FILTER BAR — dynamically built from /api/categories
+    //
+    //  The "All" pill always appears first.
+    //  Then one pill per category returned by the API.
+    //  Slug stored in data-slug is compared against item.cat (also a slug).
+    // ============================================================
+    function renderCategoryFilterBar() {
+      const bar = document.getElementById('cat-filter-bar');
+      bar.innerHTML = '';
+
+      // "All" pill
+      const allPill = makePill(t('filterAll'), 'all', currentCat === 'all');
+      allPill.onclick = () => filterCategory(allPill, 'all');
+      bar.appendChild(allPill);
+
+      // One pill per DB category (skip if slug is 'all' — handled by the All pill above)
+      categories.filter(cat => cat.slug !== 'all').forEach(cat => {
+        // Pick the localised label: nameAr / nameEn from DB, fallback to name
+        const label = currentLang === 'ar'
+          ? (cat.nameAr || cat.name || cat.nameEn || cat.slug)
+          : (cat.nameEn || cat.name || cat.nameAr || cat.slug);
+        const pill = makePill(label, cat.slug, currentCat === cat.slug);
+        pill.onclick = () => filterCategory(pill, cat.slug);
+        bar.appendChild(pill);
+      });
+    }
+
+    function makePill(label, slug, isActive) {
+      const btn = document.createElement('button');
+      btn.className   = 'filter-pill' + (isActive ? ' active' : '');
+      btn.dataset.slug = slug;
+      btn.textContent  = label;
+      return btn;
+    }
+
+    // ============================================================
+    //  FILTERING
+    //
+    //  FIX: comparison is now slug-to-slug.
+    //  item.cat is stored as a lowercase slug (e.g. "people", "photo").
+    //  currentCat is also the slug from the category record.
+    //  No ObjectID or name comparison — pure slug match.
+    // ============================================================
+    function filterCategory(btn, slug) {
+      currentCat   = slug;
+      currentSub   = 'all';
+      currentIndex = 0;
+
+      document.querySelectorAll('.filter-pill').forEach(p => p.classList.remove('active'));
+      btn.classList.add('active');
+
+      renderSubFilters(slug);
+      applyFilter();
+    }
+
+    function filterSub(btn, sub) {
+      currentSub   = sub;
+      currentIndex = 0;
+      document.querySelectorAll('.sub-pill').forEach(p => p.classList.remove('active'));
+      btn.classList.add('active');
+      applyFilter();
+    }
+
+    function renderSubFilters(slug) {
+      const container = document.getElementById('sub-filters');
+      const subs = slug === 'all' ? [] : (subLabelsMap[slug] || []);
+
+      if (subs.length === 0) {
+        container.innerHTML = '';
+        return;
+      }
+
+      const allBtn = document.createElement('button');
+      allBtn.className   = 'sub-pill' + (currentSub === 'all' ? ' active' : '');
+      allBtn.textContent = t('subAll');
+      allBtn.onclick     = () => filterSub(allBtn, 'all');
+      container.innerHTML = '';
+      container.appendChild(allBtn);
+
+      subs.forEach(sub => {
+        const btn = document.createElement('button');
+        btn.className   = 'sub-pill' + (currentSub === sub ? ' active' : '');
+        btn.textContent = sub;
+        btn.onclick     = () => filterSub(btn, sub);
+        container.appendChild(btn);
+      });
+    }
+
+    function applyFilter() {
+      filteredItems = allItems.filter(item => {
+        // item.cat is already a lowercase slug (normalised by backend)
+        const catMatch = currentCat === 'all' || item.cat === currentCat;
+        const subMatch = currentSub === 'all' || item.sub_label === currentSub;
+        return catMatch && subMatch;
+      });
+      if (currentIndex >= filteredItems.length) currentIndex = 0;
+      renderCards();
+      renderDots();
+    }
+
+    // ============================================================
+    //  CARD RENDERING
+    // ============================================================
+    const POSITIONS = [
+      'pos-hidden-left','pos-left-2','pos-left-1',
+      'pos-center',
+      'pos-right-1','pos-right-2','pos-hidden-right'
+    ];
+
+    function renderCards() {
+      const stage = document.getElementById('cards-stage');
+      if (filteredItems.length === 0) {
+        stage.innerHTML = `<div class="text-center text-gray-500 font-inter text-sm py-20">${t('noItems')}</div>`;
+        return;
+      }
+      const total   = filteredItems.length;
+      const offsets = [-3,-2,-1,0,1,2,3];
+      stage.innerHTML = '';
+
+      offsets.forEach((offset, posIdx) => {
+        const itemIdx = ((currentIndex + offset) % total + total) % total;
+        const item    = filteredItems[itemIdx];
+        const pos     = POSITIONS[posIdx];
+        const card    = document.createElement('div');
+        card.className   = `portfolio-card ${pos}`;
+        card.dataset.idx = itemIdx;
+
+        if (pos === 'pos-center') {
+          card.onclick = () => openLightbox(itemIdx);
+        } else {
+          card.onclick = () => { currentIndex = itemIdx; renderCards(); renderDots(); };
+        }
+
+        const src   = item.thumb_url || item.media_url || '';
+        const title = item.title || '';
+
+        if (item.media_type === 'video') {
+          card.innerHTML = `
+            <video src="${item.media_url}" muted loop playsinline loading="lazy"
+              oncontextmenu="return false" draggable="false"></video>
+            <div class="card-overlay">
+              <div class="play-icon"><i class="fas fa-play text-white text-xs"></i></div>
+            </div>`;
+          if (pos === 'pos-center') setTimeout(() => card.querySelector('video')?.play(), 100);
+        } else {
+          card.innerHTML = `<img src="${src}" alt="${title}" loading="lazy" oncontextmenu="return false" draggable="false">`;
+        }
+        stage.appendChild(card);
+      });
+
+      // Touch swipe support
+      stage.addEventListener('touchstart', e => { touchStartX = e.touches[0].clientX; }, { passive:true });
+      stage.addEventListener('touchend',   e => {
+        const dx = touchStartX - e.changedTouches[0].clientX;
+        if (Math.abs(dx) > 50) navigate(dx > 0 ? 'next' : 'prev');
+      }, { passive:true });
+    }
+
+    // ============================================================
+    //  DOTS
+    // ============================================================
+    function renderDots() {
+      const container = document.getElementById('dots-container');
+      const total     = Math.min(filteredItems.length, 7);
+      container.innerHTML = '';
+      for (let i = 0; i < total; i++) {
+        const dot = document.createElement('div');
+        dot.className = 'counter-dot' + (i === currentIndex % total ? ' active' : '');
+        dot.onclick   = () => { currentIndex = i; renderCards(); renderDots(); };
+        container.appendChild(dot);
+      }
+    }
+
+    // ============================================================
+    //  NAVIGATION
+    // ============================================================
+    function navigate(dir) {
+      const total = filteredItems.length;
+      if (!total) return;
+      currentIndex = dir === 'next'
+        ? (currentIndex + 1) % total
+        : (currentIndex - 1 + total) % total;
+      renderCards();
+      renderDots();
+    }
+
+    document.addEventListener('keydown', e => {
+      if (document.getElementById('lightbox').classList.contains('active')) {
+        if (e.key === 'ArrowLeft')  lightboxNav('next');
+        if (e.key === 'ArrowRight') lightboxNav('prev');
+        if (e.key === 'Escape')     closeLightbox();
+      } else {
+        if (e.key === 'ArrowLeft')  navigate('next');
+        if (e.key === 'ArrowRight') navigate('prev');
+      }
+    });
+
+    // ============================================================
+    //  LIGHTBOX
+    // ============================================================
+    function openLightbox(idx) {
+      lightboxIndex = idx;
+      showLightboxItem();
+      document.getElementById('lightbox').classList.add('active');
+      document.body.style.overflow = 'hidden';
+      const item = filteredItems[idx];
+      if (item?.id) {
+        fetch(`${API_BASE}/api/portfolio/${item.id}/view`, {
+          method: 'POST', credentials: 'include'
+        }).catch(() => {});
+      }
+    }
+
+    function showLightboxItem() {
+      const item  = filteredItems[lightboxIndex];
+      const wrap  = document.getElementById('lightbox-media-wrap');
+      const total = filteredItems.length;
+      document.getElementById('lightbox-counter').textContent = `${lightboxIndex + 1} / ${total}`;
+
+      if (item.media_type === 'video') {
+        wrap.innerHTML = `<video id="lightbox-media" src="${item.media_url}" controls autoplay
+          oncontextmenu="return false" draggable="false"
+          style="max-width:92vw;max-height:88vh;border-radius:16px;"></video>`;
+      } else {
+        wrap.innerHTML = `<img id="lightbox-media" src="${item.media_url}" alt="${item.title || ''}"
+          loading="lazy" oncontextmenu="return false" draggable="false">`;
+      }
+    }
+
+    function closeLightbox() {
+      document.getElementById('lightbox').classList.remove('active');
+      document.body.style.overflow = '';
+      document.querySelector('#lightbox-media-wrap video')?.pause();
+    }
+
+    function lightboxNav(dir) {
+      const total = filteredItems.length;
+      lightboxIndex = dir === 'next'
+        ? (lightboxIndex + 1) % total
+        : (lightboxIndex - 1 + total) % total;
+      showLightboxItem();
+    }
+
+    document.getElementById('lightbox').addEventListener('click', function(e) {
+      if (e.target === this) closeLightbox();
+    });
+    document.getElementById('lightbox').addEventListener('touchstart', e => {
+      touchStartX = e.touches[0].clientX;
+    }, { passive:true });
+    document.getElementById('lightbox').addEventListener('touchend', e => {
+      const dx = touchStartX - e.changedTouches[0].clientX;
+      if (Math.abs(dx) > 50) lightboxNav(dx > 0 ? 'next' : 'prev');
+    }, { passive:true });
+
+    // ============================================================
+    //  DRAWER
+    // ============================================================
+    function toggleDrawer() {
+      const drawer  = document.getElementById('drawer');
+      const overlay = document.getElementById('drawer-overlay');
+      const btn     = document.getElementById('hamburger-btn');
+      const isOpen  = drawer.classList.contains('open');
+      drawer.classList.toggle('open', !isOpen);
+      overlay.style.opacity       = isOpen ? '0' : '1';
+      overlay.style.pointerEvents = isOpen ? 'none' : 'auto';
+      btn.classList.toggle('active', !isOpen);
+    }
+
+    // ============================================================
+    //  SETTINGS — social links from DB
+    // ============================================================
+    function buildWhatsAppUrl(v) {
+      v = String(v || '').trim();
+      if (!v) return 'https://wa.me/966500000000';
+      if (/^https?:\/\//i.test(v)) return v;
+      return `https://wa.me/${v.replace(/[^0-9]/g, '')}`;
+    }
+    function buildInstagramUrl(v) {
+      v = String(v || '').trim();
+      if (!v) return 'https://instagram.com/suhaibphoto';
+      if (/^https?:\/\//i.test(v)) return v;
+      v = v.replace(/^@/, '');
+      if (/^instagram\.com/i.test(v)) return `https://${v}`;
+      return `https://instagram.com/${v}`;
+    }
+    function wireSocialButton(id, url) {
+      const el = document.getElementById(id);
+      if (!el || !url) return;
+      el.href = url;
+      const clone = el.cloneNode(true);
+      el.parentNode.replaceChild(clone, el);
+      clone.addEventListener('click', e => { e.preventDefault(); window.location.href = url; });
+    }
+    async function loadSettings() {
+      let waUrl = 'https://wa.me/966500000000';
+      let igUrl = 'https://instagram.com/suhaibphoto';
+      try {
+        const data = await apiFetch('/api/settings');
+        if (data.whatsapp)  waUrl = buildWhatsAppUrl(data.whatsapp);
+        if (data.instagram) igUrl = buildInstagramUrl(data.instagram);
+      } catch { /* use defaults */ }
+      wireSocialButton('whatsapp-link',  waUrl);
+      wireSocialButton('instagram-link', igUrl);
+    }
+    </script>
+</body>
+</html>

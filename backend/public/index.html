@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Suhaib Photo | Professional Photography Portfolio</title>
+    <meta name="description" content="جودة بصرية تليق بك.. حكايات ترويها العدسة - Professional photography portfolio by Suhaib Photo">
+    <meta name="keywords" content="photography, portfolio, Suhaib Photo, professional photographer, events, products, cars">
+    <meta name="author" content="Suhaib Photo">
+    <meta name="robots" content="index, follow">
+    
+    <!-- Open Graph / Social Media -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://suhaibphoto.com/">
+    <meta property="og:title" content="Suhaib Photo | Professional Photography Portfolio">
+    <meta property="og:description" content="جودة بصرية تليق بك.. حكايات ترويها العدسة">
+    <meta property="og:image" content="https://suhaibphoto.com/og-image.jpg">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:locale" content="ar_SA">
+    <meta property="og:site_name" content="Suhaib Photo">
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Suhaib Photo | Professional Photography Portfolio">
+    <meta name="twitter:description" content="جودة بصرية تليق بك.. حكايات ترويها العدسة">
+    <meta name="twitter:image" content="https://suhaibphoto.com/og-image.jpg">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📷</text></svg>">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;600;700;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <!-- Custom Styles -->
+    <link rel="stylesheet" href="style.css">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        cairo: ['Cairo', 'sans-serif'],
+                        inter: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        luxury: {
+                            900: '#0a0a0a',
+                            800: '#111111',
+                            700: '#1a1a1a',
+                            600: '#222222',
+                            500: '#2d2d2d',
+                            gold: '#c9a96e',
+                            accent: '#d4af37',
+                        }
+                    },
+                    animation: {
+                        'flash': 'flash 200ms ease-out forwards',
+                        'fade-in': 'fadeIn 0.8s ease-out forwards',
+                        'slide-up': 'slideUp 0.6s ease-out forwards',
+                        'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'shimmer': 'shimmer 2s infinite',
+                    },
+                    keyframes: {
+                        flash: {
+                            '0%': { opacity: '1' },
+                            '100%': { opacity: '0' },
+                        },
+                        fadeIn: {
+                            '0%': { opacity: '0' },
+                            '100%': { opacity: '1' },
+                        },
+                        slideUp: {
+                            '0%': { opacity: '0', transform: 'translateY(30px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' },
+                        },
+                        shimmer: {
+                            '0%': { backgroundPosition: '-200% 0' },
+                            '100%': { backgroundPosition: '200% 0' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-luxury-900 text-white min-h-screen relative">
+    
+    <!-- Flash Overlay -->
+    <div id="flash-overlay"></div>
+    
+    <!-- Skeleton Loader -->
+    <div id="skeleton-loader" class="fixed inset-0 z-50 bg-luxury-900 flex flex-col items-center justify-center">
+        <div class="w-full max-w-6xl px-4">
+            <!-- Header Skeleton -->
+            <div class="flex justify-between items-center mb-12">
+                <div class="skeleton h-8 w-32"></div>
+                <div class="skeleton h-6 w-48 hidden md:block"></div>
+                <div class="skeleton h-8 w-8"></div>
+            </div>
+            
+            <!-- Content Skeleton -->
+            <div class="flex items-center justify-between h-[60vh]">
+                <div class="flex gap-2 h-full w-1/4">
+                    <div class="skeleton h-full w-full"></div>
+                    <div class="skeleton h-full w-full hidden sm:block"></div>
+                </div>
+                <div class="flex flex-col items-center gap-6">
+                    <div class="skeleton h-24 w-24 rounded-full"></div>
+                    <div class="skeleton h-6 w-64"></div>
+                    <div class="skeleton h-6 w-48"></div>
+                </div>
+                <div class="flex gap-2 h-full w-1/4">
+                    <div class="skeleton h-full w-full hidden sm:block"></div>
+                    <div class="skeleton h-full w-full"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Main Content -->
+    <div id="main-content" class="opacity-0 transition-opacity duration-700">
+        
+        <!-- Header -->
+        <header class="fixed top-0 left-0 right-0 z-40 glass px-4 sm:px-6 lg:px-10 py-4">
+            <div class="max-w-7xl mx-auto flex items-center justify-between">
+                
+                <!-- Logo -->
+                <div class="flex items-center gap-1 text-lg sm:text-xl font-bold tracking-wide font-inter">
+                    <span id="secret-s" class="cursor-pointer hover:text-luxury-gold transition-colors duration-300 select-none" title="" onclick="openAdminModal()">S</span><span id="logo-name" class="select-none">uhaib Photo</span>
+                </div>
+                
+                <!-- Navigation (Desktop) -->
+                <nav id="main-nav" class="hidden lg:flex items-center text-xs sm:text-sm text-gray-400 font-inter tracking-wide"></nav>
+                
+                <!-- Right Section -->
+                <div class="flex items-center gap-4">
+                    <!-- Language Toggle -->
+                    <div class="flex items-center gap-1 text-xs sm:text-sm text-gray-400">
+                        <i class="fas fa-globe text-xs"></i>
+                        <span class="lang-toggle text-white" onclick="toggleLanguage()">العربية</span>
+                        <span class="text-gray-600">/</span>
+                        <span class="lang-toggle" onclick="toggleLanguage()">English</span>
+                    </div>
+                    
+                    <!-- Hamburger Menu -->
+                    <button id="hamburger-btn" class="hamburger flex flex-col gap-1.5 p-2 focus:outline-none" aria-label="Menu">
+                        <span class="hamburger-line w-6 h-0.5 bg-white block"></span>
+                        <span class="hamburger-line w-6 h-0.5 bg-white block"></span>
+                        <span class="hamburger-line w-6 h-0.5 bg-white block"></span>
+                    </button>
+                </div>
+            </div>
+        </header>
+        
+        <!-- Side Panels Container -->
+        <div class="fixed inset-0 flex pointer-events-none z-0 overflow-hidden">
+            
+            <!-- Left Panels -->
+            <div id="left-panels" class="flex h-full w-[35%] sm:w-[30%] lg:w-[25%] gap-1 sm:gap-2 pl-2 sm:pl-4 pt-20 pb-8">
+                <!-- Populated by JS -->
+            </div>
+            
+            <!-- Center Spacer -->
+            <div class="flex-1"></div>
+            
+            <!-- Right Panels -->
+            <div id="right-panels" class="flex h-full w-[35%] sm:w-[30%] lg:w-[25%] gap-1 sm:gap-2 pr-2 sm:pr-4 pt-20 pb-8 justify-end">
+                <!-- Populated by JS -->
+            </div>
+        </div>
+        
+        <!-- Center Content -->
+        <main class="relative z-10 min-h-screen flex flex-col items-center justify-center px-4 pt-24 pb-12">
+            
+            <!-- Camera Icon -->
+            <div id="camera-container" class="camera-svg-container cursor-pointer mb-8 sm:mb-12" onclick="triggerFlash()">
+                <svg width="120" height="100" viewBox="0 0 120 100" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-24 h-20 sm:w-36 sm:h-28 md:w-44 md:h-36">
+                    <defs>
+                        <!-- Camera Body Gradient -->
+                        <linearGradient id="cameraGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" style="stop-color:#2a2a2a;stop-opacity:1" />
+                            <stop offset="30%" style="stop-color:#1f1f1f;stop-opacity:1" />
+                            <stop offset="70%" style="stop-color:#151515;stop-opacity:1" />
+                            <stop offset="100%" style="stop-color:#0a0a0a;stop-opacity:1" />
+                        </linearGradient>
+                        
+                        <!-- Lens Outer Gradient -->
+                        <linearGradient id="lensGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" style="stop-color:#3a3a3a;stop-opacity:1" />
+                            <stop offset="50%" style="stop-color:#222222;stop-opacity:1" />
+                            <stop offset="100%" style="stop-color:#111111;stop-opacity:1" />
+                        </linearGradient>
+                        
+                        <!-- Lens Inner Gradient -->
+                        <radialGradient id="lensInnerGradient" cx="50%" cy="50%" r="50%">
+                            <stop offset="0%" style="stop-color:#1a1a2e;stop-opacity:1" />
+                            <stop offset="60%" style="stop-color:#0f0f1a;stop-opacity:1" />
+                            <stop offset="100%" style="stop-color:#050510;stop-opacity:1" />
+                        </radialGradient>
+                        
+                        <!-- Glass Reflection Gradient -->
+                        <linearGradient id="glassGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" style="stop-color:rgba(255,255,255,0.15);stop-opacity:1" />
+                            <stop offset="40%" style="stop-color:rgba(255,255,255,0.05);stop-opacity:1" />
+                            <stop offset="60%" style="stop-color:rgba(255,255,255,0.02);stop-opacity:1" />
+                            <stop offset="100%" style="stop-color:rgba(255,255,255,0.08);stop-opacity:1" />
+                        </linearGradient>
+                        
+                        <!-- Metallic Shine -->
+                        <linearGradient id="metallicShine" x1="0%" y1="0%" x2="0%" y2="100%">
+                            <stop offset="0%" style="stop-color:rgba(255,255,255,0.2);stop-opacity:1" />
+                            <stop offset="50%" style="stop-color:rgba(255,255,255,0.05);stop-opacity:1" />
+                            <stop offset="100%" style="stop-color:rgba(255,255,255,0.1);stop-opacity:1" />
+                        </linearGradient>
+                        
+                        <!-- Inner Shadow Filter -->
+                        <filter id="innerShadow" x="-50%" y="-50%" width="200%" height="200%">
+                            <feComponentTransfer in="SourceAlpha">
+                                <feFuncA type="table" tableValues="1 0" />
+                            </feComponentTransfer>
+                            <feGaussianBlur stdDeviation="3" />
+                            <feOffset dx="0" dy="2" result="offsetblur" />
+                            <feFlood flood-color="rgba(0,0,0,0.5)" result="color" />
+                            <feComposite in2="offsetblur" operator="in" />
+                            <feComposite in2="SourceAlpha" operator="in" />
+                            <feMerge>
+                                <feMergeNode in="SourceGraphic" />
+                                <feMergeNode />
+                            </feMerge>
+                        </filter>
+                    </defs>
+                    
+                    <!-- Camera Body -->
+                    <rect x="10" y="25" width="100" height="60" rx="8" class="camera-body" filter="url(#innerShadow)" />
+                    
+                    <!-- Top Plate -->
+                    <rect x="10" y="20" width="100" height="12" rx="4" class="camera-detail" />
+                    <rect x="10" y="20" width="100" height="12" rx="4" fill="url(#metallicShine)" opacity="0.3" />
+                    
+                    <!-- Viewfinder Hump -->
+                    <path d="M45 20 L45 12 Q45 8 50 8 L70 8 Q75 8 75 12 L75 20 Z" class="camera-detail" />
+                    <path d="M45 20 L45 12 Q45 8 50 8 L70 8 Q75 8 75 12 L75 20 Z" fill="url(#metallicShine)" opacity="0.2" />
+                    
+                    <!-- Flash Hotshoe -->
+                    <rect x="55" y="5" width="10" height="4" rx="1" fill="#333" />
+                    
+                    <!-- Shutter Button -->
+                    <circle cx="22" cy="18" r="4" fill="#444" stroke="rgba(255,255,255,0.2)" stroke-width="0.5" />
+                    <circle cx="22" cy="18" r="2" fill="#222" />
+                    
+                    <!-- Mode Dial -->
+                    <rect x="78" y="14" width="12" height="6" rx="2" fill="#333" stroke="rgba(255,255,255,0.1)" stroke-width="0.5" />
+                    <line x1="80" y1="17" x2="88" y2="17" stroke="rgba(255,255,255,0.2)" stroke-width="0.5" />
+                    
+                    <!-- Grip Texture -->
+                    <rect x="12" y="32" width="8" height="48" rx="2" fill="rgba(0,0,0,0.3)" />
+                    <line x1="14" y1="35" x2="14" y2="75" stroke="rgba(255,255,255,0.05)" stroke-width="0.5" stroke-dasharray="2,2" />
+                    <line x1="17" y1="35" x2="17" y2="75" stroke="rgba(255,255,255,0.05)" stroke-width="0.5" stroke-dasharray="2,2" />
+                    
+                    <!-- Lens Mount -->
+                    <circle cx="60" cy="55" r="28" fill="#1a1a1a" stroke="rgba(255,255,255,0.1)" stroke-width="1" />
+                    <circle cx="60" cy="55" r="26" fill="#111" />
+                    
+                    <!-- Lens Outer Ring -->
+                    <circle cx="60" cy="55" r="24" class="camera-lens-outer" />
+                    
+                    <!-- Lens Inner Ring -->
+                    <circle cx="60" cy="55" r="20" fill="#0a0a0a" stroke="rgba(255,255,255,0.05)" stroke-width="1" />
+                    
+                    <!-- Lens Glass -->
+                    <circle cx="60" cy="55" r="18" class="camera-lens-inner" />
+                    <circle cx="60" cy="55" r="16" class="camera-lens-glass" />
+                    
+                    <!-- Lens Reflection -->
+                    <ellipse cx="54" cy="48" rx="6" ry="4" fill="rgba(255,255,255,0.15)" transform="rotate(-30 54 48)" />
+                    <ellipse cx="66" cy="62" rx="3" ry="2" fill="rgba(255,255,255,0.08)" transform="rotate(-30 66 62)" />
+                    
+                    <!-- Aperture Blades -->
+                    <circle cx="60" cy="55" r="10" fill="none" stroke="rgba(0,0,0,0.5)" stroke-width="2" />
+                    <circle cx="60" cy="55" r="6" fill="#050510" opacity="0.8" />
+                    
+                    <!-- AF Assist Lamp -->
+                    <circle cx="95" cy="32" r="3" fill="#222" stroke="rgba(255,255,255,0.1)" stroke-width="0.5" />
+                    <circle cx="95" cy="32" r="1.5" fill="rgba(255,200,100,0.3)" />
+                    
+                    <!-- Brand Text -->
+                    <text x="60" y="82" text-anchor="middle" fill="rgba(255,255,255,0.3)" font-size="5" font-family="Inter" font-weight="600" letter-spacing="1">SUHAIB</text>
+                    
+                    <!-- Red Dot (Leica-style) -->
+                    <circle cx="18" cy="30" r="2" fill="#cc3333" opacity="0.8" />
+                </svg>
+            </div>
+            
+            <!-- Hero Text -->
+            <div id="hero-text" class="text-center animate-slide-up">
+                <h1 class="font-cairo text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold leading-relaxed sm:leading-relaxed md:leading-relaxed text-white tracking-wide">
+                    <span id="line1" class="block mb-2">..جودة بصرية تليق بك</span>
+                    <span id="line2" class="block">حكايات ترويها العدسة</span>
+                </h1>
+            </div>
+            
+            <!-- Bottom Section -->
+            <div class="mt-8 sm:mt-12 flex flex-col items-center gap-4 animate-fade-in" style="animation-delay: 0.3s">
+                
+                <!-- Language Toggle Bottom -->
+                <div class="flex items-center gap-2 text-sm text-gray-400">
+                    <span class="lang-toggle text-white" onclick="toggleLanguage()">العربية</span>
+                    <span class="text-gray-600">/</span>
+                    <span class="lang-toggle" onclick="toggleLanguage()">English</span>
+                </div>
+                
+                <!-- View Portfolio Button -->
+                <button onclick="window.location.href='portfolio.html'" class="btn-luxury px-8 py-3 rounded-md font-inter text-sm sm:text-base">
+                    عرض المعرض
+                </button>
+            </div>
+        </main>
+        
+    </div>
+    
+    <!-- Slide-out Drawer -->
+    <div id="drawer" class="fixed top-0 right-0 h-full w-72 sm:w-80 glass-strong z-50 flex flex-col">
+        <div class="p-6 flex justify-end">
+            <button onclick="toggleDrawer()" class="text-gray-400 hover:text-white transition-colors">
+                <i class="fas fa-times text-xl"></i>
+            </button>
+        </div>
+        
+        <div class="flex-1 flex flex-col items-center justify-center gap-8">
+            <h3 class="font-cairo text-xl text-luxury-gold mb-4">تواصل معنا</h3>
+            
+            <a id="whatsapp-link" href="#" class="social-icon flex items-center gap-3 text-lg text-gray-300 hover:text-green-500 transition-colors">
+                <div class="w-12 h-12 rounded-full bg-white/5 flex items-center justify-center border border-white/10">
+                    <i class="fab fa-whatsapp text-2xl"></i>
+                </div>
+                <span class="font-inter">WhatsApp</span>
+            </a>
+            
+            <a id="instagram-link" href="#" class="social-icon flex items-center gap-3 text-lg text-gray-300 hover:text-pink-500 transition-colors">
+                <div class="w-12 h-12 rounded-full bg-white/5 flex items-center justify-center border border-white/10">
+                    <i class="fab fa-instagram text-2xl"></i>
+                </div>
+                <span class="font-inter">Instagram</span>
+            </a>
+        </div>
+        
+        <div class="p-6 text-center text-xs text-gray-600 font-inter">
+            Suhaib Photo &copy; 2026
+        </div>
+    </div>
+    
+    <!-- Drawer Overlay -->
+    <div id="drawer-overlay" class="fixed inset-0 bg-black/60 z-40 opacity-0 pointer-events-none transition-opacity duration-300" onclick="toggleDrawer()"></div>
+    
+    <!-- Admin Modal -->
+    <div id="admin-modal" style="display:none" class="fixed inset-0 z-[60] flex items-center justify-center bg-black/80 backdrop-blur-sm">
+        <div class="modal-content glass-strong rounded-xl p-8 w-full max-w-md mx-4 relative">
+            <button onclick="closeAdminModal()" class="absolute top-4 right-4 text-gray-400 hover:text-white transition-colors">
+                <i class="fas fa-times"></i>
+            </button>
+            
+            <div class="text-center mb-8">
+                <div class="w-16 h-16 rounded-full bg-luxury-gold/10 flex items-center justify-center mx-auto mb-4 border border-luxury-gold/30">
+                    <i class="fas fa-lock text-luxury-gold text-2xl"></i>
+                </div>
+                <h2 class="font-cairo text-2xl font-bold text-white mb-2">Admin Access</h2>
+                <p class="text-gray-400 text-sm font-inter">Enter your credentials to continue</p>
+            </div>
+            
+            <div class="space-y-4">
+                <div>
+                    <label class="block text-xs text-gray-500 mb-2 font-inter uppercase tracking-wider">Password</label>
+                    <input 
+                        type="password" 
+                        id="admin-password" 
+                        class="password-input w-full px-4 py-3 rounded-lg text-white placeholder-gray-600 font-inter"
+                        placeholder="••••••••"
+                        autocomplete="off"
+                    >
+                </div>
+                
+                <button 
+                    id="login-btn"
+                    onclick="handleLogin()"
+                    class="w-full bg-luxury-gold/20 hover:bg-luxury-gold/30 text-luxury-gold border border-luxury-gold/40 py-3 rounded-lg font-inter font-medium transition-all duration-300 hover:shadow-lg hover:shadow-luxury-gold/10"
+                >
+                    Login
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <script src="script.js"></script>
+    <script>
+      // Lazy image fade-in on load
+      document.addEventListener('load', function(e) {
+        if (e.target.tagName === 'IMG') e.target.classList.add('loaded');
+      }, true);
+    </script>
+</body>
+</html>
