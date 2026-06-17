@@ -131,8 +131,8 @@ async function ensureReady(_req, res, next) {
 
     if (mongoose.connection.readyState !== 1) {
       await mongoose.connect(process.env.MONGODB_URI, {
-        serverSelectionTimeoutMS: 10000,
-        socketTimeoutMS: 45000,
+        serverSelectionTimeoutMS: 5000,
+        socketTimeoutMS: 15000,
       });
       console.log('✅  Connected to MongoDB Atlas →', mongoose.connection.host);
     }
