@@ -131,8 +131,8 @@ async function ensureReady(_req, res, next) {
 
     if (mongoose.connection.readyState !== 1) {
       await mongoose.connect(process.env.MONGODB_URI, {
-        serverSelectionTimeoutMS: 5000,
-        socketTimeoutMS: 15000,
+        serverSelectionTimeoutMS: 10000,
+        socketTimeoutMS: 45000,
       });
       console.log('✅  Connected to MongoDB Atlas →', mongoose.connection.host);
     }
@@ -258,4 +258,40 @@ if (process.env.VERCEL) {
     console.log('╚══════════════════════════════════════════╝\n');
   });
   module.exports = app;
+}
+
+// ════════════════════════════════════════════════════════════════════════════
+// KEEP-ALIVE SELF-PING (appended — does not modify any code above)
+// Pings this same server every 10 minutes so Render's free tier doesn't put
+// it to sleep after 15 minutes of inactivity.
+//
+// Uses Node's built-in 'https'/'http' modules only — no new dependency added,
+// since none of axios/node-fetch were already imported above.
+//
+// Set SELF_URL in your Render environment variables to your public service
+// URL, e.g.: SELF_URL=https://your-app-name.onrender.com
+// (Render also auto-provides RENDER_EXTERNAL_URL, which is used as a fallback.)
+// ════════════════════════════════════════════════════════════════════════════
+if (!process.env.VERCEL) {
+  const KEEP_ALIVE_URL = process.env.SELF_URL || process.env.RENDER_EXTERNAL_URL;
+  const KEEP_ALIVE_INTERVAL_MS = 10 * 60 * 1000; // 10 minutes
+
+  if (KEEP_ALIVE_URL) {
+    const pingClient = KEEP_ALIVE_URL.startsWith('https') ? require('https') : require('http');
+
+    setInterval(() => {
+      pingClient
+        .get(KEEP_ALIVE_URL, (res) => {
+          console.log(`[Keep-Alive] Pinged ${KEEP_ALIVE_URL} — status: ${res.statusCode}`);
+          res.on('data', () => {});
+        })
+        .on('error', (err) => {
+          console.error('[Keep-Alive] Ping failed:', err.message);
+        });
+    }, KEEP_ALIVE_INTERVAL_MS);
+
+    console.log(`[Keep-Alive] Self-ping enabled — pinging ${KEEP_ALIVE_URL} every 10 minutes.`);
+  } else {
+    console.warn('[Keep-Alive] SELF_URL / RENDER_EXTERNAL_URL not set — self-ping disabled.');
+  }
 }
