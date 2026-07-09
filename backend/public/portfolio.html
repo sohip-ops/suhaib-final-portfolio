@@ -125,62 +125,17 @@
         .nav-arrow { width:48px; height:48px; border-radius:50%; border:1.5px solid rgba(255,255,255,0.2); background:rgba(255,255,255,0.05); display:flex; align-items:center; justify-content:center; cursor:pointer; transition:all 0.3s ease; color:rgba(255,255,255,0.7); font-size:14px; backdrop-filter:blur(8px); }
         .nav-arrow:hover { border-color:rgba(201,169,110,0.6); color:#c9a96e; background:rgba(201,169,110,0.08); box-shadow:0 0 20px rgba(201,169,110,0.1); }
 
-        /* ── Glassmorphic Lightbox Overlay ── */
-        #lightbox { position:fixed; inset:0; z-index:1000; background:rgba(0,0,0,0.82); backdrop-filter:blur(20px); -webkit-backdrop-filter:blur(20px); display:flex; align-items:center; justify-content:center; opacity:0; visibility:hidden; transition:opacity 0.4s cubic-bezier(0.4,0,0.2,1), visibility 0.4s; }
+        #lightbox { position:fixed; inset:0; z-index:1000; background:rgba(0,0,0,0.97); display:flex; align-items:center; justify-content:center; opacity:0; visibility:hidden; transition:all 0.4s cubic-bezier(0.4,0,0.2,1); backdrop-filter:blur(10px); }
         #lightbox.active { opacity:1; visibility:visible; }
-
-        /* Glass panel */
-        #lb-panel { position:relative; width:min(96vw,1080px); padding:48px 0 62px; background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.09); border-radius:28px; backdrop-filter:blur(28px); -webkit-backdrop-filter:blur(28px); box-shadow:0 32px 100px rgba(0,0,0,0.85), inset 0 1px 0 rgba(255,255,255,0.08); overflow:hidden; }
-        #lb-panel::before { content:''; position:absolute; inset:0; border-radius:28px; background:linear-gradient(135deg,rgba(100,180,255,0.05) 0%,transparent 55%); pointer-events:none; }
-
-        /* 3-D stage inside the lightbox */
-        .lb-stage { position:relative; width:100%; height:420px; perspective:1400px; display:flex; align-items:center; justify-content:center; overflow:visible; }
-
-        /* Cards */
-        .lb-card { position:absolute; border-radius:18px; overflow:hidden; cursor:pointer; transition:all 0.52s cubic-bezier(0.4,0,0.2,1); box-shadow:0 8px 40px rgba(0,0,0,0.5); -webkit-user-drag:none; }
-        .lb-card img,.lb-card video { width:100%; height:100%; object-fit:cover; display:block; pointer-events:none; -webkit-user-drag:none; user-select:none; }
-        .lb-card.lb-center  { width:300px; height:380px; z-index:10; transform:translateX(0) scale(1) rotateY(0deg); box-shadow:0 0 0 2px rgba(100,180,255,0.55),0 0 40px rgba(100,180,255,0.22),0 24px 80px rgba(0,0,0,0.8); cursor:default; }
-        .lb-card.lb-left-1  { width:220px; height:300px; z-index:7;  transform:translateX(-290px) scale(0.88) rotateY(18deg);  filter:brightness(0.52); }
-        .lb-card.lb-right-1 { width:220px; height:300px; z-index:7;  transform:translateX(290px)  scale(0.88) rotateY(-18deg); filter:brightness(0.52); }
-        .lb-card.lb-left-2  { width:170px; height:240px; z-index:4;  transform:translateX(-520px) scale(0.75) rotateY(25deg);  filter:brightness(0.22); }
-        .lb-card.lb-right-2 { width:170px; height:240px; z-index:4;  transform:translateX(520px)  scale(0.75) rotateY(-25deg); filter:brightness(0.22); }
-        .lb-card.lb-hidden-l{ width:140px; height:200px; z-index:1;  transform:translateX(-700px) scale(0.6) rotateY(32deg);   filter:brightness(0.05); pointer-events:none; }
-        .lb-card.lb-hidden-r{ width:140px; height:200px; z-index:1;  transform:translateX(700px)  scale(0.6) rotateY(-32deg);  filter:brightness(0.05); pointer-events:none; }
-
-        /* Title label below center card */
-        #lb-label { text-align:center; margin-top:22px; padding:0 28px; min-height:54px; }
-        #lb-title { font-family:'Cairo',sans-serif; font-size:18px; font-weight:700; color:rgba(255,255,255,0.92); letter-spacing:0.02em; transition:opacity 0.25s; }
-        #lb-subtitle { font-family:'Cairo',sans-serif; font-size:13px; font-weight:400; color:rgba(255,255,255,0.42); margin-top:4px; transition:opacity 0.25s; }
-
-        /* Lightbox close — inside the panel, top-right corner */
-        #lightbox-close { position:absolute; top:14px; right:18px; z-index:20; width:40px; height:40px; border-radius:50%; background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.16); display:flex; align-items:center; justify-content:center; cursor:pointer; transition:all 0.3s ease; color:rgba(255,255,255,0.8); font-size:17px; }
+        #lightbox-media { max-width:92vw; max-height:88vh; border-radius:16px; object-fit:contain; box-shadow:0 30px 100px rgba(0,0,0,0.9); transform:scale(0.92); transition:transform 0.4s cubic-bezier(0.4,0,0.2,1); pointer-events:none; -webkit-user-drag:none; user-select:none; }
+        #lightbox.active #lightbox-media { transform:scale(1); }
+        #lightbox-close { position:absolute; top:20px; right:24px; width:44px; height:44px; border-radius:50%; background:rgba(255,255,255,0.1); border:1px solid rgba(255,255,255,0.2); display:flex; align-items:center; justify-content:center; cursor:pointer; transition:all 0.3s ease; color:white; font-size:18px; z-index:10; }
         #lightbox-close:hover { background:rgba(201,169,110,0.2); border-color:rgba(201,169,110,0.5); color:#c9a96e; transform:rotate(90deg); }
-
-        /* Nav arrows — vertically centred inside the panel */
-        #lightbox-prev,#lightbox-next { position:absolute; top:calc(50% - 31px); z-index:20; width:46px; height:46px; border-radius:50%; background:rgba(255,255,255,0.07); border:1px solid rgba(255,255,255,0.14); display:flex; align-items:center; justify-content:center; cursor:pointer; transition:all 0.3s ease; color:rgba(255,255,255,0.75); font-size:15px; }
-        #lightbox-prev { right:18px; transform:translateY(-50%); }
-        #lightbox-next { left:18px;  transform:translateY(-50%); }
-        #lightbox-prev:hover,#lightbox-next:hover { background:rgba(201,169,110,0.15); border-color:rgba(201,169,110,0.4); color:#c9a96e; }
-
-        /* Counter */
-        #lightbox-info { position:absolute; bottom:18px; left:50%; transform:translateX(-50%); text-align:center; }
-        #lightbox-counter { font-family:'Inter',sans-serif; font-size:11px; letter-spacing:0.15em; color:rgba(255,255,255,0.28); }
-
-        /* Responsive overrides */
-        @media (max-width:768px) {
-          .lb-stage { height:320px; overflow:hidden; }
-          .lb-card.lb-center  { width:220px; height:285px; }
-          .lb-card.lb-left-1  { width:158px; height:218px; transform:translateX(-210px) scale(0.86) rotateY(14deg); }
-          .lb-card.lb-right-1 { width:158px; height:218px; transform:translateX(210px)  scale(0.86) rotateY(-14deg); }
-          .lb-card.lb-left-2  { transform:translateX(-385px) scale(0.7) rotateY(22deg); filter:brightness(0.1); }
-          .lb-card.lb-right-2 { transform:translateX(385px)  scale(0.7) rotateY(-22deg); filter:brightness(0.1); }
-        }
-        @media (max-width:480px) {
-          .lb-stage { height:275px; }
-          .lb-card.lb-center  { width:178px; height:235px; }
-          .lb-card.lb-left-1  { width:128px; height:178px; transform:translateX(-170px) scale(0.84) rotateY(12deg); }
-          .lb-card.lb-right-1 { width:128px; height:178px; transform:translateX(170px)  scale(0.84) rotateY(-12deg); }
-        }
+        #lightbox-info { position:absolute; bottom:24px; left:50%; transform:translateX(-50%); text-align:center; color:rgba(255,255,255,0.6); font-family:'Inter',sans-serif; font-size:13px; }
+        #lightbox-prev, #lightbox-next { position:absolute; top:50%; transform:translateY(-50%); width:52px; height:52px; border-radius:50%; background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.15); display:flex; align-items:center; justify-content:center; cursor:pointer; transition:all 0.3s ease; color:white; font-size:16px; z-index:10; }
+        #lightbox-prev { right:24px; }
+        #lightbox-next { left:24px; }
+        #lightbox-prev:hover, #lightbox-next:hover { background:rgba(201,169,110,0.15); border-color:rgba(201,169,110,0.4); color:#c9a96e; }
 
         .card-skeleton { border-radius:20px; background:linear-gradient(90deg,#1a1a1a 25%,#2d2d2d 50%,#1a1a1a 75%); background-size:200% 100%; animation:shimmer 1.5s infinite; }
         @keyframes shimmer { 0%{background-position:-200% 0} 100%{background-position:200% 0} }
@@ -216,6 +171,44 @@
         #filter-loading.visible { opacity:1; }
 
         img, video { -webkit-user-drag:none; user-select:none; }
+
+        /* ============================================================
+           STAGE 1 — GRID VIEW (base layer)
+           ============================================================ */
+        .portfolio-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:6px; }
+        .grid-item { position:relative; aspect-ratio:1/1; border-radius:10px; overflow:hidden; cursor:pointer; transition:transform 0.3s ease, box-shadow 0.3s ease; }
+        .grid-item:hover { transform:scale(1.03); box-shadow:0 8px 24px rgba(0,0,0,0.5); }
+        .grid-item img, .grid-item video { width:100%; height:100%; object-fit:cover; display:block; pointer-events:none; -webkit-user-drag:none; user-select:none; }
+        .grid-item .grid-play-icon { position:absolute; inset:0; display:flex; align-items:center; justify-content:center; background:rgba(0,0,0,0.25); }
+        @media (max-width:768px) { .portfolio-grid { grid-template-columns:repeat(3,1fr); gap:4px; } }
+        @media (max-width:480px) { .portfolio-grid { grid-template-columns:repeat(2,1fr); gap:4px; } }
+
+        /* ============================================================
+           STAGE 2 — GLASSMORPHIC OVERLAY (wraps existing 3D slider)
+           ============================================================ */
+        .stage2-overlay {
+            position:fixed; inset:0; z-index:900; /* above grid/header, below lightbox (1000) */
+            display:flex; flex-direction:column; align-items:center; justify-content:center;
+            gap:1.5rem; padding:24px;
+            background:rgba(10,10,10,0.55);
+            backdrop-filter:blur(18px) saturate(140%);
+            -webkit-backdrop-filter:blur(18px) saturate(140%);
+            opacity:0; visibility:hidden;
+            transition:opacity 0.4s cubic-bezier(0.4,0,0.2,1), visibility 0.4s;
+        }
+        .stage2-overlay.active { opacity:1; visibility:visible; }
+
+        #stage2-close {
+            position:absolute; top:20px; right:24px; width:44px; height:44px; border-radius:50%;
+            background:rgba(255,255,255,0.1); border:1px solid rgba(255,255,255,0.2);
+            display:flex; align-items:center; justify-content:center; cursor:pointer;
+            color:white; font-size:18px; transition:all 0.3s ease; z-index:10;
+        }
+        #stage2-close:hover { background:rgba(201,169,110,0.2); border-color:rgba(201,169,110,0.5); color:#c9a96e; transform:rotate(90deg); }
+
+        #stage2-caption { text-align:center; max-width:480px; }
+        #stage2-caption .caption-title { font-family:'Cairo',sans-serif; font-size:1.1rem; color:#fff; font-weight:600; }
+        #stage2-caption .caption-sub { font-family:'Inter',sans-serif; font-size:0.75rem; color:rgba(255,255,255,0.5); margin-top:2px; }
     </style>
 </head>
 <body class="bg-luxury-900 text-white min-h-screen">
@@ -270,56 +263,64 @@
             </div>
         </div>
 
-        <!-- Cards Stage -->
-        <div class="w-full flex flex-col items-center gap-8 page-enter" style="animation-delay:0.1s">
+        <!-- Stage 1: Grid View (base layer, stays static behind Stage 2/3) -->
+        <div id="portfolio-grid" class="portfolio-grid w-full max-w-6xl page-enter" style="animation-delay:0.1s">
+            <!-- Populated by JS via renderGrid() -->
+        </div>
 
-            <div id="cards-stage" class="cards-stage w-full max-w-5xl">
-                <div class="card-skeleton w-[340px] h-[420px]"></div>
+        <!-- Stage 2: Glassmorphic Overlay — wraps the existing 3D slider unchanged -->
+        <div id="stage2-overlay" class="stage2-overlay">
+            <button id="stage2-close" onclick="closeStage2()" aria-label="Close">
+                <i class="fas fa-times"></i>
+            </button>
+
+            <div class="w-full flex flex-col items-center gap-8">
+
+                <div id="cards-stage" class="cards-stage w-full max-w-5xl">
+                    <div class="card-skeleton w-[340px] h-[420px]"></div>
+                </div>
+
+                <!-- Dots Indicator -->
+                <div id="dots-container" class="flex gap-2 items-center justify-center mt-2"></div>
+
+                <!-- Navigation Arrows -->
+                <div class="flex gap-4 items-center">
+                    <button class="nav-arrow" onclick="navigate('prev')" aria-label="Previous">
+                        <i class="fas fa-arrow-right"></i>
+                    </button>
+                    <button class="nav-arrow" onclick="navigate('next')" aria-label="Next">
+                        <i class="fas fa-arrow-left"></i>
+                    </button>
+                </div>
+
+                <!-- Title caption — hidden entirely if item has no title -->
+                <div id="stage2-caption" class="hidden">
+                    <div id="stage2-caption-title" class="caption-title"></div>
+                    <div id="stage2-caption-sub" class="caption-sub"></div>
+                </div>
+
             </div>
-
-            <!-- Dots Indicator -->
-            <div id="dots-container" class="flex gap-2 items-center justify-center mt-2"></div>
-
-            <!-- Navigation Arrows -->
-            <div class="flex gap-4 items-center">
-                <button class="nav-arrow" onclick="navigate('prev')" aria-label="Previous">
-                    <i class="fas fa-arrow-right"></i>
-                </button>
-                <button class="nav-arrow" onclick="navigate('next')" aria-label="Next">
-                    <i class="fas fa-arrow-left"></i>
-                </button>
-            </div>
-
         </div>
 
     </main>
 
-    <!-- ===================== LIGHTBOX (Glassmorphic 3-D Slider) ===================== -->
+    <!-- ===================== LIGHTBOX ===================== -->
     <div id="lightbox" oncontextmenu="return false;">
-        <!-- Glassmorphic panel — clicking outside it (on #lightbox backdrop) closes the modal -->
-        <div id="lb-panel">
-            <!-- Close -->
-            <button id="lightbox-close" onclick="closeLightbox()" aria-label="Close">
-                <i class="fas fa-times"></i>
-            </button>
-            <!-- 3-D Slider Stage — populated by renderLightboxSlider() -->
-            <div id="lb-stage" class="lb-stage"></div>
-            <!-- Title / sub-label beneath the centre card -->
-            <div id="lb-label">
-                <div id="lb-title"></div>
-                <div id="lb-subtitle"></div>
-            </div>
-            <!-- Navigation arrows -->
-            <button id="lightbox-prev" onclick="lightboxNav('prev')" aria-label="Previous">
-                <i class="fas fa-chevron-right"></i>
-            </button>
-            <button id="lightbox-next" onclick="lightboxNav('next')" aria-label="Next">
-                <i class="fas fa-chevron-left"></i>
-            </button>
-            <!-- Counter -->
-            <div id="lightbox-info">
-                <span id="lightbox-counter"></span>
-            </div>
+        <button id="lightbox-close" onclick="closeLightbox()" aria-label="Close">
+            <i class="fas fa-times"></i>
+        </button>
+        <button id="lightbox-prev" onclick="lightboxNav('prev')" aria-label="Previous">
+            <i class="fas fa-chevron-right"></i>
+        </button>
+        <button id="lightbox-next" onclick="lightboxNav('next')" aria-label="Next">
+            <i class="fas fa-chevron-left"></i>
+        </button>
+        <div id="lightbox-media-wrap" style="position:relative;display:flex;align-items:center;justify-content:center;">
+            <img id="lightbox-media" src="" alt="Portfolio item" loading="lazy" oncontextmenu="return false;" draggable="false">
+        </div>
+        <div id="lightbox-info">
+            <span id="lightbox-title" class="font-cairo text-sm block mb-1" style="display:none;"></span>
+            <span id="lightbox-counter" class="font-inter text-xs tracking-widest opacity-50"></span>
         </div>
     </div>
 
@@ -603,9 +604,54 @@
         return catMatch && subMatch;
       });
       if (currentIndex >= filteredItems.length) currentIndex = 0;
+      renderGrid();
       renderCards();
       renderDots();
     }
+
+    // ============================================================
+    //  STAGE 1 — GRID RENDERING (new)
+    // ============================================================
+    function renderGrid() {
+      const grid = document.getElementById('portfolio-grid');
+      if (filteredItems.length === 0) {
+        grid.innerHTML = `<div class="text-center text-gray-500 font-inter text-sm py-20" style="grid-column:1/-1;">${t('noItems')}</div>`;
+        return;
+      }
+      grid.innerHTML = '';
+      filteredItems.forEach((item, idx) => {
+        const src  = item.thumb_url || item.media_url || '';
+        const cell = document.createElement('div');
+        cell.className = 'grid-item';
+        cell.onclick    = () => openStage2(idx);
+        cell.innerHTML  = item.media_type === 'video'
+          ? `<video src="${item.media_url}" muted playsinline preload="metadata" oncontextmenu="return false" draggable="false"></video>
+             <div class="grid-play-icon"><i class="fas fa-play text-white text-xs"></i></div>`
+          : `<img src="${src}" alt="${item.title || ''}" loading="lazy" oncontextmenu="return false" draggable="false">`;
+        grid.appendChild(cell);
+      });
+    }
+
+    // ============================================================
+    //  STAGE 2 — GLASSMORPHIC OVERLAY CONTROL (new)
+    // ============================================================
+    function openStage2(idx) {
+      currentIndex = idx;
+      renderCards();
+      renderDots();
+      document.getElementById('stage2-overlay').classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeStage2() {
+      document.getElementById('stage2-overlay').classList.remove('active');
+      document.body.style.overflow = '';
+    }
+
+    // Click on the blurred backdrop itself (not its children) closes Stage 2
+    document.getElementById('stage2-overlay').addEventListener('click', function(e) {
+      if (e.target === this) closeStage2();
+    });
 
     // ============================================================
     //  CARD RENDERING
@@ -657,6 +703,20 @@
         stage.appendChild(card);
       });
 
+      // Stage 2 caption for the centered item — title shown ONLY if present,
+      // never falls back to a filename. Whole caption block hides if empty.
+      const centerItem = filteredItems[currentIndex];
+      const captionEl  = document.getElementById('stage2-caption');
+      const titleEl    = document.getElementById('stage2-caption-title');
+      const subEl      = document.getElementById('stage2-caption-sub');
+      const titleText  = (centerItem?.title || '').trim();
+      const subText    = (centerItem?.sub_label || '').trim();
+      titleEl.textContent   = titleText;
+      titleEl.style.display = titleText ? '' : 'none';
+      subEl.textContent     = subText;
+      subEl.style.display   = subText ? '' : 'none';
+      captionEl.classList.toggle('hidden', !titleText && !subText);
+
       // Touch swipe support
       stage.addEventListener('touchstart', e => { touchStartX = e.touches[0].clientX; }, { passive:true });
       stage.addEventListener('touchend',   e => {
@@ -698,9 +758,10 @@
         if (e.key === 'ArrowLeft')  lightboxNav('next');
         if (e.key === 'ArrowRight') lightboxNav('prev');
         if (e.key === 'Escape')     closeLightbox();
-      } else {
+      } else if (document.getElementById('stage2-overlay').classList.contains('active')) {
         if (e.key === 'ArrowLeft')  navigate('next');
         if (e.key === 'ArrowRight') navigate('prev');
+        if (e.key === 'Escape')     closeStage2();
       }
     });
 
@@ -720,71 +781,31 @@
       }
     }
 
-    // ── Glassmorphic 3-D lightbox slider ────────────────────────────────────────
-    // Position classes mapped to the 7 slots centred on lightboxIndex
-    const LB_POS = ['lb-hidden-l','lb-left-2','lb-left-1','lb-center','lb-right-1','lb-right-2','lb-hidden-r'];
-
-    function renderLightboxSlider() {
-      const stage = document.getElementById('lb-stage');
-      if (!stage || !filteredItems.length) return;
-      const total   = filteredItems.length;
-      const offsets = [-3, -2, -1, 0, 1, 2, 3];
-      stage.innerHTML = '';
-
-      offsets.forEach((offset, slotIdx) => {
-        const itemIdx  = ((lightboxIndex + offset) % total + total) % total;
-        const item     = filteredItems[itemIdx];
-        const isCenter = offset === 0;
-        const card     = document.createElement('div');
-        card.className = `lb-card ${LB_POS[slotIdx]}`;
-
-        if (item.media_type === 'video') {
-          const v = document.createElement('video');
-          v.src = item.media_url;
-          v.oncontextmenu = () => false;
-          v.draggable = false;
-          if (isCenter) { v.autoplay = true; v.muted = true; v.loop = true; v.controls = true; }
-          else { v.muted = true; }
-          card.appendChild(v);
-        } else {
-          const img = document.createElement('img');
-          img.src = item.media_url;
-          img.alt = item.title || '';
-          img.loading = isCenter ? 'eager' : 'lazy';
-          img.oncontextmenu = () => false;
-          img.draggable = false;
-          card.appendChild(img);
-        }
-
-        // Side cards navigate to that item when clicked
-        if (!isCenter) {
-          card.addEventListener('click', () => {
-            lightboxIndex = itemIdx;
-            renderLightboxSlider();
-          });
-        }
-        stage.appendChild(card);
-      });
-
-      // Update label & counter
-      const item = filteredItems[lightboxIndex];
-      const titleEl = document.getElementById('lb-title');
-      const subEl   = document.getElementById('lb-subtitle');
-      if (titleEl) titleEl.textContent = item?.title     || '';
-      if (subEl)   subEl.textContent   = item?.sub_label || item?.category_name || '';
-      const ctr = document.getElementById('lightbox-counter');
-      if (ctr) ctr.textContent = `${lightboxIndex + 1} / ${total}`;
-    }
-
-    // Kept as the single call-point used by openLightbox() and lightboxNav()
     function showLightboxItem() {
-      renderLightboxSlider();
+      const item  = filteredItems[lightboxIndex];
+      const wrap  = document.getElementById('lightbox-media-wrap');
+      const total = filteredItems.length;
+      document.getElementById('lightbox-counter').textContent = `${lightboxIndex + 1} / ${total}`;
+
+      const titleEl   = document.getElementById('lightbox-title');
+      const titleText = (item.title || '').trim();
+      titleEl.textContent   = titleText;
+      titleEl.style.display = titleText ? '' : 'none';
+
+      if (item.media_type === 'video') {
+        wrap.innerHTML = `<video id="lightbox-media" src="${item.media_url}" controls autoplay
+          oncontextmenu="return false" draggable="false"
+          style="max-width:92vw;max-height:88vh;border-radius:16px;"></video>`;
+      } else {
+        wrap.innerHTML = `<img id="lightbox-media" src="${item.media_url}" alt="${item.title || ''}"
+          loading="lazy" oncontextmenu="return false" draggable="false">`;
+      }
     }
 
     function closeLightbox() {
       document.getElementById('lightbox').classList.remove('active');
       document.body.style.overflow = '';
-      document.querySelector('#lb-stage video')?.pause();
+      document.querySelector('#lightbox-media-wrap video')?.pause();
     }
 
     function lightboxNav(dir) {
